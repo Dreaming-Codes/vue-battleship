@@ -1,23 +1,109 @@
 <template>
-  <v-dialog v-model="isOpen" persistent overlay-opacity="0.8">
+  <v-dialog v-model="isOpen" overlay-opacity="0.8" persistent>
     <div class="menu-container">
-      <button class="btn" @click="$emit('start-new-game')">
-        New Game
-      </button>
+      <div v-if="!user" id="loginLogic">
+        <v-text-field
+          v-model="alias"
+          label="Alias"
+        ></v-text-field>
+        <v-text-field
+          v-model="psw"
+          label="Password"
+        ></v-text-field>
+        <button class="btn" @click="login">
+          Auth
+        </button>
+        <button class="btn" @click="create">
+          Create
+        </button>
+      </div>
+      <div v-else-if="options.resume.isDisabled">
+        <v-text-field
+          v-model="opponent"
+          label="Opponent alias"
+        ></v-text-field>
+        <button class="btn" :class="{disable: !opponent}" @click="startGame">
+          New Game
+        </button>
+      </div>
       <button
         class="btn"
-        :class="{ disable: options.resume.isDisabled }"
+        v-else
         @click="$emit('resume-game')"
       >
         Resume
       </button>
     </div>
+    <v-alert
+      v-if="errorMsg"
+      dense
+      outlined
+      type="error"
+    >
+      {{ errorMsg }}
+    </v-alert>
   </v-dialog>
 </template>
 
 <script>
 export default {
   name: 'TheGameMenu',
+  data() {
+    return {
+      alias: '',
+      psw: '',
+      errorMsg: '',
+      opponent: '',
+      user: null
+    };
+  },
+  methods: {
+    showErrorMsg(text, time) {
+      this.errorMsg = text;
+      setTimeout(() => {
+        this.errorMsg = '';
+      }, time);
+    },
+    startGame(){
+      this.$gun.get('~@'+this.opponent).once((data) => {
+        if(data) {
+          this.$emit('start-new-game');
+        } else {
+          this.showErrorMsg('Opponent not found', 3000);
+        }
+      });
+    },
+    login() {
+      this.$gun.user()
+        .auth(this.alias, this.psw, (userReference) => {
+          console.log(userReference);
+          if (userReference.err) {
+            this.showErrorMsg(userReference.err, 3000);
+          } else {
+            this.user = userReference;
+          }
+        });
+    },
+    create() {
+      this.$gun.user()
+        .create(this.alias, this.psw, (userReference) => {
+          console.log(userReference);
+          if (userReference.err) {
+            this.showErrorMsg(userReference.err, 3000);
+          } else {
+            this.$gun.user()
+              .auth(this.alias, this.psw, (userReference) => {
+                console.log(userReference);
+                if (userReference.err) {
+                  this.showErrorMsg(userReference.err, 3000);
+                } else {
+                  this.user = userReference;
+                }
+              });
+          }
+        });
+    }
+  },
 
   props: {
     isOpen: Boolean,
