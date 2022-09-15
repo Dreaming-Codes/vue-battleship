@@ -3,7 +3,7 @@
 ## Getting Started
 ### Installing and running
 ```bash
-git clone https://github.com/igorashs/vue-battleship.git
+git clone https://github.com/Dreaming-Codes/vue-battleship
 cd vue-battleship
 npm install
 npm run serve

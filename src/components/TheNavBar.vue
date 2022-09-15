@@ -2,21 +2,12 @@
   <nav>
     <button class="menu" @click="$emit('show-game-menu')">Menu</button>
     <h1 class="logo">Battleship</h1>
-    <button class="github-icon" @click="handleOpenRepo">
-      <v-icon large>mdi-github-circle</v-icon>
-    </button>
   </nav>
 </template>
 
 <script>
 export default {
-  name: 'TheNavBar',
-
-  methods: {
-    handleOpenRepo() {
-      window.open('https://github.com/igorashs/vue-battleship', '_blank');
-    },
-  },
+  name: 'TheNavBar'
 };
 </script>
 
@@ -67,12 +58,6 @@ nav button:focus {
 @keyframes pulse {
   100% {
     box-shadow: 0 0px 5px 1px rgb(0, 255, 213);
-  }
-}
-
-@media screen and (max-width: 600px) {
-  .github-icon {
-    display: none !important;
   }
 }
 </style>

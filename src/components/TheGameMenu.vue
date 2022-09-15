@@ -11,10 +11,6 @@
       >
         Resume
       </button>
-      <button class="btn source" @click="handleOpenRepo">
-        Source Code
-      </button>
-      <p class="author">Made by igorash</p>
     </div>
   </v-dialog>
 </template>
@@ -26,12 +22,6 @@ export default {
   props: {
     isOpen: Boolean,
     options: Object,
-  },
-
-  methods: {
-    handleOpenRepo() {
-      window.open('https://github.com/igorashs/vue-battleship', '_blank');
-    },
   },
 };
 </script>
@@ -60,21 +50,8 @@ export default {
   box-shadow: inset 0 0 2px 2px rgb(56, 56, 56);
 }
 
-.source {
- text-decoration: underline;
- color: rgb(255, 103, 103);
- text-shadow: 0 0px 2px black;
- font-size: 2rem;
-}
-
 .disable {
   pointer-events: none;
   color: rgb(117, 117, 117);
-}
-
-.author {
-  font-family: bfont;
-  text-shadow: 0 2px 2px black;
-  font-size: 1.6rem;
 }
 </style>
