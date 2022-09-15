@@ -35,14 +35,12 @@ const pcAttack = ({ player }) => {
     if (tracker.isVertical) {
       y -= 1;
 
-      // eslint-disable-next-line no-loop-func
       if (tracker.damagedShipsCords.find((c) => (c.x === x && c.y === y))) {
         y -= 1;
       }
     } else {
       x -= 1;
 
-      // eslint-disable-next-line no-loop-func
       if (tracker.damagedShipsCords.find((c) => (c.x === x && c.y === y))) {
         x -= 1;
       }
@@ -71,14 +69,12 @@ const pcAttack = ({ player }) => {
     if (tracker.isVertical) {
       y += 1;
 
-      // eslint-disable-next-line no-loop-func
       if (tracker.damagedShipsCords.find((c) => (c.x === x && c.y === y))) {
         y += 1;
       }
     } else {
       x += 1;
 
-      // eslint-disable-next-line no-loop-func
       if (tracker.damagedShipsCords.find((c) => (c.x === x && c.y === y))) {
         x += 1;
       }

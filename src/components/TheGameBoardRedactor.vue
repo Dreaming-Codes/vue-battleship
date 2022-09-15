@@ -146,7 +146,6 @@ export default {
         const isVertical = ship.dataset.position === 'x';
         const { x, y } = JSON.parse(ship.parentElement.dataset.cord);
 
-        /* eslint-disable no-param-reassign */
         ship.querySelectorAll('.part').forEach((part, i) => {
           const curCord = isVertical ? { x, y: y + i } : { x: x + i, y };
           part.dataset.cord = JSON.stringify(curCord);
