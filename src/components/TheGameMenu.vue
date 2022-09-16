@@ -1,16 +1,26 @@
 <template>
   <v-dialog v-model="isOpen" persistent overlay-opacity="0.8">
     <div class="menu-container">
-      <button class="btn" @click="$emit('start-new-game')">
-        New Game
-      </button>
-      <button
-        class="btn"
-        :class="{ disable: options.resume.isDisabled }"
-        @click="$emit('resume-game')"
-      >
-        Resume
-      </button>
+      <div v-if="playerFound">
+        <button class="btn" @click="newGame">
+          New Game
+        </button>
+        <button
+          class="btn"
+          :class="{ disable: options.resume.isDisabled }"
+          @click="$emit('resume-game')"
+        >
+          Resume
+        </button>
+      </div>
+      <div v-else>
+        <v-text-field
+          label="Share this link"
+          readonly
+          v-model="peerLink"
+        ></v-text-field>
+      </div>
+
     </div>
   </v-dialog>
 </template>
@@ -18,6 +28,37 @@
 <script>
 export default {
   name: 'TheGameMenu',
+
+  async mounted() {
+    if(!this.$conn){
+      this.peerLink = `${window.location.origin}/?id=${this.$peer.id}`;
+      await new Promise((resolve)=>{
+        this.$peer.once("connection", (conn)=>{
+          console.log("Connected to other peer")
+          this.$conn = conn;
+          resolve()
+        })
+      })
+    }
+    this.playerFound = true;
+    this.$conn.on("data", (data)=>{
+      console.log("test", data)
+    })
+  },
+
+  methods: {
+    newGame(){
+      console.log("sending data")
+      this.$conn.send("startGame")
+    }
+  },
+
+  data() {
+    return {
+      playerFound: false,
+      peerLink: ""
+    }
+  },
 
   props: {
     isOpen: Boolean,
