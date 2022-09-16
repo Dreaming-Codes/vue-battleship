@@ -13,6 +13,6 @@ npm run serve
 * [Vue](https://vuejs.org/) (for components, states and scoped styles)
 * [Vue CLI](https://cli.vuejs.org/) (for build tools)
 * [Vuetify](https://vuetifyjs.com/en/) (for global dark styles)
-* [Gun](https://gun.eco/) (for multiplayer)
+* [PeerJS](https://peerjs.com/) (for multiplayer)
 ## License
 This project is licensed under the MIT License
