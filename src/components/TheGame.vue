@@ -31,7 +31,7 @@ export default {
       return this.GameStore.opponentPlacementDone ? this.gameInfo.msg : 'Waiting for opponent to finish placement';
     },
     shouldFlash() {
-      return this.GameStore.opponentPlacementDone && this.gameInfoMsg();
+      return this.GameStore.opponentPlacementDone && this.gameInfoMsg;
     },
   },
 
