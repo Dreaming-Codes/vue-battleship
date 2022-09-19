@@ -34,8 +34,6 @@ const peer = new Peer();
     console.log("Opened inviter peer connection")
 
     Vue.prototype.$conn = conn;
-  }else{
-    window.history.replaceState(null, null, "?id=" + id);
   }
 
 

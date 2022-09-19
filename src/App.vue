@@ -97,9 +97,10 @@ export default {
       this.$refs.game.initTheGame(plBoardElement, pcBoardElement, this.pl, this.pc);
     },
 
-    handleRound(pcCordAttack) {
+    async handleRound(pcCordAttack) {
       if (!this.gameHasAwinner) {
-        this.plHasDamaged = this.makePlTurn(pcCordAttack);
+        this.plHasDamaged = await this.makePlTurn(pcCordAttack);
+        console.log('plHasDamaged', this.plHasDamaged);
         this.$refs.game.updateTheBoardsInfo();
 
         if (this.pc.getBoard().isAllShipsSunk()) {
@@ -123,8 +124,8 @@ export default {
         this.$refs.game.disablePcBoard();
 
         const delayPcTurn = (ms) => {
-          setTimeout(() => {
-            this.pcHasDamaged = this.makePcTurn();
+          setTimeout(async () => {
+            this.pcHasDamaged = await this.makePcTurn();
             this.$refs.game.updateTheBoardsInfo();
 
             if (this.pl.getBoard().isAllShipsSunk()) {
@@ -157,16 +158,16 @@ export default {
       }
     },
 
-    makePlTurn(pcCordAttack) {
+    async makePlTurn(pcCordAttack) {
       const { x, y } = JSON.parse(pcCordAttack);
-      const attackInfo = this.pl.attack({ player: this.pc, x, y });
+      const attackInfo = await this.pl.attack({ player: this.pc, x, y });
       this.$refs.game.updatePcBoard(pcCordAttack, attackInfo);
 
       return attackInfo === true || attackInfo.damagedShipData;
     },
 
-    makePcTurn() {
-      const { attackInfo, cord } = this.pc.attack({ player: this.pl });
+    async makePcTurn() {
+      const { attackInfo, cord } = await this.pc.attack({ player: this.pl });
       const { x, y } = cord;
       this.$refs.game.updatePlBoard(JSON.stringify({ x, y }), attackInfo);
 

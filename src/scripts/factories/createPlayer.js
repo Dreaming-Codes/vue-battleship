@@ -1,4 +1,5 @@
 import { getRandomCord, isCordsValid } from './createGameBoard';
+import { useGameStore } from '@/stores/gameStore';
 
 const getValidName = (name, isPc) => {
   if (!name && !isPc) {
@@ -167,12 +168,34 @@ const pcAttack = ({ player }) => {
 };
 
 const createPlayer = ({ name = '', board, isPc = false } = {}) => {
+  const GameStore = useGameStore();
+
   if (!board) throw new Error('Player must have a board');
   if (!board.isReady()) throw new Error('Player must have a board with ships');
 
   const playerName = getValidName(name, isPc);
   const receiveAttack = board.receiveAttack.bind(board);
-  const attack = isPc ? pcAttack : playerAttack;
+  if(!isPc) {
+    GameStore.conn.on('data', (data) => {
+      if (data.id === 'attack') {
+        let test = receiveAttack({x: data.x, y: data.y});
+        console.log(test)
+        GameStore.conn.send({id: "attackReply", success: test})
+      }
+    });
+  }
+  const attack = isPc ? pcAttack : async ({ player, x, y })=>{
+    GameStore.conn.send({id: "attack", x, y});
+    return await new Promise((resolve) => {
+      GameStore.conn.once("data", (data)=>{
+        console.log("Something happened", data);
+        if (data.id === "attackReply") {
+          console.log(data);
+          return data.success
+        }
+      })
+    })
+  };
 
   return {
     getName: () => playerName,
