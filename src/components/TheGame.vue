@@ -3,7 +3,7 @@
     <div :style="{display: isGameInitiated ? 'flex' : 'none'}" class="game-container">
       <div ref="plElement" class="pl">
       </div>
-      <div :class="{pulse: this.gameInfo.msg, 'top-bot-borders': this.gameInfo.msg}" :style="{color: this.gameInfo.color}"
+      <div :class="{pulse: shouldFlash, 'top-bot-borders': shouldFlash}" :style="{color: this.gameInfo.color}"
            class="game-info">
         {{ this.gameInfoMsg }}
       </div>
@@ -29,6 +29,9 @@ export default {
   computed: {
     gameInfoMsg() {
       return this.GameStore.opponentPlacementDone ? this.gameInfo.msg : 'Waiting for opponent to finish placement';
+    },
+    shouldFlash() {
+      return this.GameStore.opponentPlacementDone && this.gameInfoMsg();
     },
   },
 

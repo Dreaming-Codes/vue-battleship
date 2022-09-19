@@ -18,19 +18,24 @@ const peer = new Peer();
     })
   })
   console.log('My peer ID is: ' + id);
-  if(!urlId) {
-    window.history.replaceState(null, null, "?id=" + id);
-  }
   Vue.prototype.$peer = peer;
   if(urlId){
     let conn =  peer.connect(urlId);
     await new Promise((resolve)=>{
-      conn.once("open", resolve)
+      let id = setTimeout(()=>{
+        location.replace(location.origin)
+      }, 5000)
+      conn.once("open", ()=>{
+        clearTimeout(id)
+        resolve()
+      })
     })
 
     console.log("Opened inviter peer connection")
 
     Vue.prototype.$conn = conn;
+  }else{
+    window.history.replaceState(null, null, "?id=" + id);
   }
 
 

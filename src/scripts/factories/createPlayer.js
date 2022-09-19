@@ -2,11 +2,11 @@ import { getRandomCord, isCordsValid } from './createGameBoard';
 
 const getValidName = (name, isPc) => {
   if (!name && !isPc) {
-    return 'Player';
+    return 'Your';
   }
 
   if (!name && isPc) {
-    return 'PC-Player';
+    return 'Opponent';
   }
 
   return name;
