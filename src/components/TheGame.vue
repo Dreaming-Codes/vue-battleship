@@ -1,9 +1,9 @@
 <template>
   <div class="game-wrapper">
-    <div class="game-container">
+    <div class="game-container" :style="{display: isGameInitiated ? 'flex' : 'none'}">
       <div class="pl" ref="plElement">
       </div>
-      <div ref="gameInfo" class="game-info">{{this.GameStore.opponentPlacementDone}}</div>
+      <div class="game-info" :style="{color: this.gameInfo.color}" :class="{pulse: this.gameInfo.msg, 'top-bot-borders': this.gameInfo.msg}">{{this.gameInfoMsg}}</div>
       <div class="pc" ref="pcElement">
       </div>
     </div>
@@ -23,6 +23,12 @@ export default {
     }
   },
 
+  computed: {
+    gameInfoMsg(){
+      return this.GameStore.opponentPlacementDone ? this.gameInfo.msg : "Waiting for opponent to finish placement"
+    },
+  },
+
 
   data: () => ({
     isGameInitiated: false,
@@ -30,6 +36,10 @@ export default {
     pcBoardElement: null,
     plBoardInfoElement: null,
     pcBoardInfoElement: null,
+    gameInfo: {
+      msg: '',
+      color: 'rgb(43, 197, 87)'
+    },
     pl: null,
     pc: null,
   }),
@@ -44,7 +54,7 @@ export default {
       this.renderTheBoards();
       this.renderTheBoardsInfo();
       this.updateTheBoardsInfo();
-      this.updateGameInfo('Your Turn!');
+      this.gameInfo.msg = 'Your Turn!';
       this.addPcBoardEvent();
 
       this.isGameInitiated = true;
@@ -57,7 +67,8 @@ export default {
 
     resetTheGame() {
       if (this.isGameInitiated) {
-        this.updateGameInfo('');
+        this.gameInfo.msg = '';
+        this.gameInfo.color = 'rgb(43, 197, 87)';
         this.plBoardElement.remove();
         this.pcBoardElement.remove();
         this.plBoardInfoElement.remove();
@@ -204,21 +215,6 @@ export default {
 
       this.$refs.plElement.appendChild(this.plBoardInfoElement);
       this.$refs.pcElement.appendChild(this.pcBoardInfoElement);
-    },
-
-    updateGameInfo(msg = '', color = 'rgb(43, 197, 87)') {
-      this.$refs.gameInfo.textContent = msg;
-      this.$refs.gameInfo.style.color = color;
-
-      if (!this.$refs.gameInfo.classList.contains('pulse')) {
-        this.$refs.gameInfo.classList.add('pulse');
-        this.$refs.gameInfo.classList.add('top-bot-borders');
-      }
-
-      if (!msg) {
-        this.$refs.gameInfo.classList.remove('pulse');
-        this.$refs.gameInfo.classList.remove('top-bot-borders');
-      }
     },
 
     disablePcBoard() {

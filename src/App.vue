@@ -105,7 +105,10 @@ export default {
         if (this.pc.getBoard().isAllShipsSunk()) {
           this.gameHasAwinner = true;
           this.gameMenuOptions.resume.isDisabled = true;
-          this.$refs.game.updateGameInfo('Congratulations you won The Game', 'rgb(43, 197, 87)');
+          this.$refs.game.gameInfo = {
+            msg: 'You Won!',
+            color: 'rgb(43, 197, 87)',
+          };
           setTimeout(this.handleShowGameMenu, 3000);
 
           return;
@@ -113,7 +116,10 @@ export default {
 
         if (this.plHasDamaged) return;
 
-        this.$refs.game.updateGameInfo('Pc Turn!', 'rgb(226, 54, 54)');
+        this.$refs.game.gameInfo = {
+          msg: 'Pc Turn!',
+          color: 'rgb(226, 54, 54)',
+        };
         this.$refs.game.disablePcBoard();
 
         const delayPcTurn = (ms) => {
@@ -124,7 +130,10 @@ export default {
             if (this.pl.getBoard().isAllShipsSunk()) {
               this.gameHasAwinner = true;
               this.gameMenuOptions.resume.isDisabled = true;
-              this.$refs.game.updateGameInfo('Pc won The Game!', 'rgb(226, 54, 54)');
+              this.$refs.game.gameInfo = {
+                msg: 'Pc Won!',
+                color: 'rgb(226, 54, 54)',
+              };
               setTimeout(this.handleShowGameMenu, 3000);
 
               return;
@@ -136,7 +145,10 @@ export default {
               return;
             }
 
-            this.$refs.game.updateGameInfo('Your Turn!', 'rgb(43, 197, 87)');
+            this.$refs.game.gameInfo = {
+              msg: 'Your Turn!',
+              color: 'rgb(43, 197, 87)',
+            };
             this.$refs.game.enablePcBoard();
           }, ms);
         };
@@ -196,7 +208,7 @@ html {
   }
 }
 
-@media screen and (max-width: 359) {
+@media screen and (max-width: 359px) {
   html {
     font-size: 5px !important;
   }
