@@ -60,7 +60,19 @@ export default {
       this.renderTheBoards();
       this.renderTheBoardsInfo();
       this.updateTheBoardsInfo();
-      this.gameInfo.msg = 'Your Turn!';
+      if(this.GameStore.opponentPlacementDone){
+        this.disablePcBoard();
+        this.gameInfo = {
+          msg: 'Opponent Turn!',
+          color: 'rgb(226, 54, 54)',
+        };
+      }else{
+        this.enablePcBoard();
+        this.gameInfo = {
+          msg: 'Your Turn!',
+          color: 'rgb(43, 197, 87)',
+        };
+      }
       this.addPcBoardEvent();
 
       this.isGameInitiated = true;

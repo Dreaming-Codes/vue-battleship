@@ -1,4 +1,4 @@
-import { defineStore } from 'pinia'
+import { defineStore } from 'pinia';
 
 export const useGameStore = defineStore('main', {
   state: () => ({
@@ -6,17 +6,17 @@ export const useGameStore = defineStore('main', {
     opponentPlacementDone: false,
   }),
   actions: {
-    handleDataFromPeer(data){
-      console.log(data)
-      switch (data.id){
-        case "placementDone":
+    handleDataFromPeer(data) {
+      console.log(data);
+      switch (data.id) {
+        case 'placementDone':
           this.opponentPlacementDone = true;
           break;
       }
     },
-    setConnection(conn){
+    setConnection(conn) {
       this.conn = conn;
-      conn.on('data', this.handleDataFromPeer)
+      conn.on('data', this.handleDataFromPeer);
     }
   }
-})
+});

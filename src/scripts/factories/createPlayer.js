@@ -24,6 +24,7 @@ const tracker = {
   isBackWardFirst: null,
 };
 
+//TODO: Replace with opponent attack
 const pcAttack = ({ player }) => {
   let attackInfo;
   let x;

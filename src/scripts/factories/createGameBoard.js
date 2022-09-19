@@ -12,7 +12,10 @@ export { REQUIRED_TYPES_OF_SHIPS };
 export { MAX_CORD_RANGE };
 export { MIN_CORD_RANGE };
 
-const isCordsValid = ({ x, y }) => {
+const isCordsValid = ({
+  x,
+  y
+}) => {
   const isCordBetweenRange = (cord) => MIN_CORD_RANGE <= cord && cord <= MAX_CORD_RANGE;
 
   const validateCord = (cord) => {
@@ -40,25 +43,37 @@ const isShipPlaceable = (start, end, board, isVertical) => {
 
     // check the left side
     for (let i = start.y - 1; i <= end.y + 1; i += 1) {
-      if (isCordsValid({ x: start.x - 1, y: i }) && board[start.x - 1][i] === 's') {
+      if (isCordsValid({
+        x: start.x - 1,
+        y: i
+      }) && board[start.x - 1][i] === 's') {
         return false;
       }
     }
 
     // check the right side
     for (let i = start.y - 1; i <= end.y + 1; i += 1) {
-      if (isCordsValid({ x: start.x + 1, y: i }) && board[start.x + 1][i] === 's') {
+      if (isCordsValid({
+        x: start.x + 1,
+        y: i
+      }) && board[start.x + 1][i] === 's') {
         return false;
       }
     }
 
     // check the top side
-    if (isCordsValid({ x: start.x, y: start.y - 1 }) && board[start.x][start.y - 1] === 's') {
+    if (isCordsValid({
+      x: start.x,
+      y: start.y - 1
+    }) && board[start.x][start.y - 1] === 's') {
       return false;
     }
 
     // check the bottom side
-    if (isCordsValid({ x: start.x, y: end.y + 1 }) && board[start.x][end.y + 1] === 's') {
+    if (isCordsValid({
+      x: start.x,
+      y: end.y + 1
+    }) && board[start.x][end.y + 1] === 's') {
       return false;
     }
 
@@ -76,25 +91,37 @@ const isShipPlaceable = (start, end, board, isVertical) => {
 
   // check the top side
   for (let i = start.x - 1; i <= end.x + 1; i += 1) {
-    if (isCordsValid({ x: i, y: start.y - 1 }) && board[i][start.y - 1] === 's') {
+    if (isCordsValid({
+      x: i,
+      y: start.y - 1
+    }) && board[i][start.y - 1] === 's') {
       return false;
     }
   }
 
   // check the bottom side
   for (let i = start.x + 1; i <= end.x + 1; i += 1) {
-    if (isCordsValid({ x: i, y: start.y + 1 }) && board[i][start.y + 1] === 's') {
+    if (isCordsValid({
+      x: i,
+      y: start.y + 1
+    }) && board[i][start.y + 1] === 's') {
       return false;
     }
   }
 
   // check the left side
-  if (isCordsValid({ x: start.x - 1, y: start.y }) && board[start.x - 1][start.y] === 's') {
+  if (isCordsValid({
+    x: start.x - 1,
+    y: start.y
+  }) && board[start.x - 1][start.y] === 's') {
     return false;
   }
 
   // check the right side
-  if (isCordsValid({ x: start.x + 1, y: start.y }) && board[start.x + 1][start.y] === 's') {
+  if (isCordsValid({
+    x: start.x + 1,
+    y: start.y
+  }) && board[start.x + 1][start.y] === 's') {
     return false;
   }
 
@@ -102,12 +129,26 @@ const isShipPlaceable = (start, end, board, isVertical) => {
   return true;
 };
 
-const isShipValid = (ship, board, { x, y, isVertical }) => {
-  if (ship && isCordsValid({ x, y })) {
-    const startPoint = { x, y };
-    const endPoint = isVertical
-      ? { x, y: y + ship.getLength() - 1 }
-      : { x: x + ship.getLength() - 1, y };
+const isShipValid = (ship, board, {
+  x,
+  y,
+  isVertical
+}) => {
+  if (ship && isCordsValid({
+    x,
+    y
+  })) {
+    const startPoint = {
+      x,
+      y
+    };
+    const endPoint = isVertical ? {
+      x,
+      y: y + ship.getLength() - 1
+    } : {
+      x: x + ship.getLength() - 1,
+      y
+    };
 
     return isCordsValid(endPoint) && isShipPlaceable(startPoint, endPoint, board, isVertical);
   }
@@ -115,26 +156,45 @@ const isShipValid = (ship, board, { x, y, isVertical }) => {
   return false;
 };
 
-const getAllShipCords = (ship, { x, y, isVertical }) => {
+const getAllShipCords = (ship, {
+  x,
+  y,
+  isVertical
+}) => {
   const cords = [];
-  const startPoint = { x, y };
+  const startPoint = {
+    x,
+    y
+  };
 
   // vertical position
   if (isVertical) {
-    const endPoint = { x, y: y + ship.getLength() - 1 };
+    const endPoint = {
+      x,
+      y: y + ship.getLength() - 1
+    };
 
     for (let i = startPoint.y; i <= endPoint.y; i += 1) {
-      cords.push({ x: startPoint.x, y: i });
+      cords.push({
+        x: startPoint.x,
+        y: i
+      });
     }
 
     return cords;
   }
 
   // horizontal position
-  const endPoint = { x: x + ship.getLength() - 1, y };
+  const endPoint = {
+    x: x + ship.getLength() - 1,
+    y
+  };
 
   for (let i = startPoint.x; i <= endPoint.x; i += 1) {
-    cords.push({ x: i, y: startPoint.y });
+    cords.push({
+      x: i,
+      y: startPoint.y
+    });
   }
 
   return cords;
@@ -160,13 +220,23 @@ const removeShipFromBoardInfo = (ship, boardInfo) => {
   return { ...newBoardInfo };
 };
 
-const putShipOnBoard = (ship, board, { x, y, isVertical }) => {
-  const startPoint = { x, y };
+const putShipOnBoard = (ship, board, {
+  x,
+  y,
+  isVertical
+}) => {
+  const startPoint = {
+    x,
+    y
+  };
   const newBoard = JSON.parse(JSON.stringify(board));
 
   // vertical position
   if (isVertical) {
-    const endPoint = { x, y: y + ship.getLength() - 1 };
+    const endPoint = {
+      x,
+      y: y + ship.getLength() - 1
+    };
 
     // place the ship
     for (let i = startPoint.y; i <= endPoint.y; i += 1) {
@@ -175,25 +245,37 @@ const putShipOnBoard = (ship, board, { x, y, isVertical }) => {
 
     // place the left border
     for (let i = startPoint.y - 1; i <= endPoint.y + 1; i += 1) {
-      if (isCordsValid({ x: startPoint.x - 1, y: i })) {
+      if (isCordsValid({
+        x: startPoint.x - 1,
+        y: i
+      })) {
         newBoard[startPoint.x - 1][i] = 'B';
       }
     }
 
     // place the right border
     for (let i = startPoint.y - 1; i <= endPoint.y + 1; i += 1) {
-      if (isCordsValid({ x: startPoint.x + 1, y: i })) {
+      if (isCordsValid({
+        x: startPoint.x + 1,
+        y: i
+      })) {
         newBoard[startPoint.x + 1][i] = 'B';
       }
     }
 
     // place the top border
-    if (isCordsValid({ x: startPoint.x, y: startPoint.y - 1 })) {
+    if (isCordsValid({
+      x: startPoint.x,
+      y: startPoint.y - 1
+    })) {
       newBoard[startPoint.x][startPoint.y - 1] = 'B';
     }
 
     // place the bottom border
-    if (isCordsValid({ x: startPoint.x, y: endPoint.y + 1 })) {
+    if (isCordsValid({
+      x: startPoint.x,
+      y: endPoint.y + 1
+    })) {
       newBoard[startPoint.x][endPoint.y + 1] = 'B';
     }
 
@@ -201,7 +283,10 @@ const putShipOnBoard = (ship, board, { x, y, isVertical }) => {
   }
 
   // horizontal position
-  const endPoint = { x: x + ship.getLength() - 1, y };
+  const endPoint = {
+    x: x + ship.getLength() - 1,
+    y
+  };
 
   // place the ship
   for (let i = startPoint.x; i <= endPoint.x; i += 1) {
@@ -210,53 +295,120 @@ const putShipOnBoard = (ship, board, { x, y, isVertical }) => {
 
   // place the top border
   for (let i = startPoint.x - 1; i <= endPoint.x + 1; i += 1) {
-    if (isCordsValid({ x: i, y: startPoint.y - 1 })) {
+    if (isCordsValid({
+      x: i,
+      y: startPoint.y - 1
+    })) {
       newBoard[i][startPoint.y - 1] = 'B';
     }
   }
 
   // place the bottom border
   for (let i = startPoint.x - 1; i <= endPoint.x + 1; i += 1) {
-    if (isCordsValid({ x: i, y: startPoint.y + 1 })) {
+    if (isCordsValid({
+      x: i,
+      y: startPoint.y + 1
+    })) {
       newBoard[i][startPoint.y + 1] = 'B';
     }
   }
 
   // place the left border
-  if (isCordsValid({ x: startPoint.x - 1, y: startPoint.y })) {
+  if (isCordsValid({
+    x: startPoint.x - 1,
+    y: startPoint.y
+  })) {
     newBoard[startPoint.x - 1][startPoint.y] = 'B';
   }
 
   // place the right border
-  if (isCordsValid({ x: endPoint.x + 1, y: startPoint.y })) {
+  if (isCordsValid({
+    x: endPoint.x + 1,
+    y: startPoint.y
+  })) {
     newBoard[endPoint.x + 1][startPoint.y] = 'B';
   }
 
   return newBoard;
 };
 
-const isBorderForAnotherShip = (board, { x, y }) => {
-  if (isCordsValid({ x: x - 1, y }) && board[x - 1][y] === 's') return true;
-  if (isCordsValid({ x: x + 1, y }) && board[x + 1][y] === 's') return true;
-  if (isCordsValid({ x, y: y - 1 }) && board[x][y - 1] === 's') return true;
-  if (isCordsValid({ x: x - 1, y: y - 1 }) && board[x - 1][y - 1] === 's') return true;
-  if (isCordsValid({ x: x + 1, y: y - 1 }) && board[x + 1][y - 1] === 's') return true;
-  if (isCordsValid({ x, y: y + 1 }) && board[x][y + 1] === 's') return true;
-  if (isCordsValid({ x: x - 1, y: y + 1 }) && board[x - 1][y + 1] === 's') return true;
-  if (isCordsValid({ x: x + 1, y: y + 1 }) && board[x + 1][y + 1] === 's') return true;
+const isBorderForAnotherShip = (board, {
+  x,
+  y
+}) => {
+  if (isCordsValid({
+    x: x - 1,
+    y
+  }) && board[x - 1][y] === 's') {
+    return true;
+  }
+  if (isCordsValid({
+    x: x + 1,
+    y
+  }) && board[x + 1][y] === 's') {
+    return true;
+  }
+  if (isCordsValid({
+    x,
+    y: y - 1
+  }) && board[x][y - 1] === 's') {
+    return true;
+  }
+  if (isCordsValid({
+    x: x - 1,
+    y: y - 1
+  }) && board[x - 1][y - 1] === 's') {
+    return true;
+  }
+  if (isCordsValid({
+    x: x + 1,
+    y: y - 1
+  }) && board[x + 1][y - 1] === 's') {
+    return true;
+  }
+  if (isCordsValid({
+    x,
+    y: y + 1
+  }) && board[x][y + 1] === 's') {
+    return true;
+  }
+  if (isCordsValid({
+    x: x - 1,
+    y: y + 1
+  }) && board[x - 1][y + 1] === 's') {
+    return true;
+  }
+  if (isCordsValid({
+    x: x + 1,
+    y: y + 1
+  }) && board[x + 1][y + 1] === 's') {
+    return true;
+  }
 
   return false;
 };
 
 const removeShipFromBoard = (shipData, board) => {
-  const { ship, isVertical } = shipData;
-  const { x, y } = shipData.cords[0];
-  const startPoint = { x, y };
+  const {
+    ship,
+    isVertical
+  } = shipData;
+  const {
+    x,
+    y
+  } = shipData.cords[0];
+  const startPoint = {
+    x,
+    y
+  };
   const newBoard = JSON.parse(JSON.stringify(board));
 
   // vertical position
   if (isVertical) {
-    const endPoint = { x, y: y + ship.getLength() - 1 };
+    const endPoint = {
+      x,
+      y: y + ship.getLength() - 1
+    };
 
     // remove the ship
     for (let i = startPoint.y; i <= endPoint.y; i += 1) {
@@ -265,8 +417,14 @@ const removeShipFromBoard = (shipData, board) => {
 
     // remove the left border
     for (let i = startPoint.y - 1; i <= endPoint.y + 1; i += 1) {
-      if (isCordsValid({ x: startPoint.x - 1, y: i })) {
-        if (!isBorderForAnotherShip(newBoard, { x: startPoint.x - 1, y: i })) {
+      if (isCordsValid({
+        x: startPoint.x - 1,
+        y: i
+      })) {
+        if (!isBorderForAnotherShip(newBoard, {
+          x: startPoint.x - 1,
+          y: i
+        })) {
           newBoard[startPoint.x - 1][i] = '~';
         }
       }
@@ -274,23 +432,41 @@ const removeShipFromBoard = (shipData, board) => {
 
     // remove the right border
     for (let i = startPoint.y - 1; i <= endPoint.y + 1; i += 1) {
-      if (isCordsValid({ x: startPoint.x + 1, y: i })) {
-        if (!isBorderForAnotherShip(newBoard, { x: startPoint.x + 1, y: i })) {
+      if (isCordsValid({
+        x: startPoint.x + 1,
+        y: i
+      })) {
+        if (!isBorderForAnotherShip(newBoard, {
+          x: startPoint.x + 1,
+          y: i
+        })) {
           newBoard[startPoint.x + 1][i] = '~';
         }
       }
     }
 
     // remove the top border
-    if (isCordsValid({ x: startPoint.x, y: startPoint.y - 1 })) {
-      if (!isBorderForAnotherShip(newBoard, { x: startPoint.x, y: startPoint.y - 1 })) {
+    if (isCordsValid({
+      x: startPoint.x,
+      y: startPoint.y - 1
+    })) {
+      if (!isBorderForAnotherShip(newBoard, {
+        x: startPoint.x,
+        y: startPoint.y - 1
+      })) {
         newBoard[startPoint.x][startPoint.y - 1] = '~';
       }
     }
 
     // remove the bottom border
-    if (isCordsValid({ x: startPoint.x, y: endPoint.y + 1 })) {
-      if (!isBorderForAnotherShip(newBoard, { x: startPoint.x, y: endPoint.y + 1 })) {
+    if (isCordsValid({
+      x: startPoint.x,
+      y: endPoint.y + 1
+    })) {
+      if (!isBorderForAnotherShip(newBoard, {
+        x: startPoint.x,
+        y: endPoint.y + 1
+      })) {
         newBoard[startPoint.x][endPoint.y + 1] = '~';
       }
     }
@@ -299,7 +475,10 @@ const removeShipFromBoard = (shipData, board) => {
   }
 
   // horizontal position
-  const endPoint = { x: x + ship.getLength() - 1, y };
+  const endPoint = {
+    x: x + ship.getLength() - 1,
+    y
+  };
 
   // remove the ship
   for (let i = startPoint.x; i <= endPoint.x; i += 1) {
@@ -308,8 +487,14 @@ const removeShipFromBoard = (shipData, board) => {
 
   // remove the top border
   for (let i = startPoint.x - 1; i <= endPoint.x + 1; i += 1) {
-    if (isCordsValid({ x: i, y: startPoint.y - 1 })) {
-      if (!isBorderForAnotherShip(newBoard, { x: i, y: startPoint.y - 1 })) {
+    if (isCordsValid({
+      x: i,
+      y: startPoint.y - 1
+    })) {
+      if (!isBorderForAnotherShip(newBoard, {
+        x: i,
+        y: startPoint.y - 1
+      })) {
         newBoard[i][startPoint.y - 1] = '~';
       }
     }
@@ -317,23 +502,41 @@ const removeShipFromBoard = (shipData, board) => {
 
   // remove the bottom border
   for (let i = startPoint.x - 1; i <= endPoint.x + 1; i += 1) {
-    if (isCordsValid({ x: i, y: startPoint.y + 1 })) {
-      if (!isBorderForAnotherShip(newBoard, { x: i, y: startPoint.y + 1 })) {
+    if (isCordsValid({
+      x: i,
+      y: startPoint.y + 1
+    })) {
+      if (!isBorderForAnotherShip(newBoard, {
+        x: i,
+        y: startPoint.y + 1
+      })) {
         newBoard[i][startPoint.y + 1] = '~';
       }
     }
   }
 
   // remove the left border
-  if (isCordsValid({ x: startPoint.x - 1, y: startPoint.y })) {
-    if (!isBorderForAnotherShip(newBoard, { x: startPoint.x - 1, y: startPoint.y })) {
+  if (isCordsValid({
+    x: startPoint.x - 1,
+    y: startPoint.y
+  })) {
+    if (!isBorderForAnotherShip(newBoard, {
+      x: startPoint.x - 1,
+      y: startPoint.y
+    })) {
       newBoard[startPoint.x - 1][startPoint.y] = '~';
     }
   }
 
   // remove the right border
-  if (isCordsValid({ x: endPoint.x + 1, y: startPoint.y })) {
-    if (!isBorderForAnotherShip(newBoard, { x: endPoint.x + 1, y: startPoint.y })) {
+  if (isCordsValid({
+    x: endPoint.x + 1,
+    y: startPoint.y
+  })) {
+    if (!isBorderForAnotherShip(newBoard, {
+      x: endPoint.x + 1,
+      y: startPoint.y
+    })) {
       newBoard[endPoint.x + 1][startPoint.y] = '~';
     }
   }
@@ -342,97 +545,172 @@ const removeShipFromBoard = (shipData, board) => {
 };
 
 const removeShipBorders = (shipData, board) => {
-  const { ship, isVertical } = shipData;
-  const { x, y } = shipData.cords[0];
-  const startPoint = { x, y };
+  const {
+    ship,
+    isVertical
+  } = shipData;
+  const {
+    x,
+    y
+  } = shipData.cords[0];
+  const startPoint = {
+    x,
+    y
+  };
   const newBoard = JSON.parse(JSON.stringify(board));
 
   const clearedBorders = [];
 
   // vertical position
   if (isVertical) {
-    const endPoint = { x, y: y + ship.getLength() - 1 };
+    const endPoint = {
+      x,
+      y: y + ship.getLength() - 1
+    };
 
     // remove the left border
     for (let i = startPoint.y - 1; i <= endPoint.y + 1; i += 1) {
-      if (isCordsValid({ x: startPoint.x - 1, y: i })) {
+      if (isCordsValid({
+        x: startPoint.x - 1,
+        y: i
+      })) {
         newBoard[startPoint.x - 1][i] = '*';
-        clearedBorders.push({ x: startPoint.x - 1, y: i });
+        clearedBorders.push({
+          x: startPoint.x - 1,
+          y: i
+        });
       }
     }
 
     // remove the right border
     for (let i = startPoint.y - 1; i <= endPoint.y + 1; i += 1) {
-      if (isCordsValid({ x: startPoint.x + 1, y: i })) {
+      if (isCordsValid({
+        x: startPoint.x + 1,
+        y: i
+      })) {
         newBoard[startPoint.x + 1][i] = '*';
-        clearedBorders.push({ x: startPoint.x + 1, y: i });
+        clearedBorders.push({
+          x: startPoint.x + 1,
+          y: i
+        });
       }
     }
 
     // remove the top border
-    if (isCordsValid({ x: startPoint.x, y: startPoint.y - 1 })) {
+    if (isCordsValid({
+      x: startPoint.x,
+      y: startPoint.y - 1
+    })) {
       newBoard[startPoint.x][startPoint.y - 1] = '*';
-      clearedBorders.push({ x: startPoint.x, y: startPoint.y - 1 });
+      clearedBorders.push({
+        x: startPoint.x,
+        y: startPoint.y - 1
+      });
     }
 
     // remove the bottom border
-    if (isCordsValid({ x: startPoint.x, y: endPoint.y + 1 })) {
+    if (isCordsValid({
+      x: startPoint.x,
+      y: endPoint.y + 1
+    })) {
       newBoard[startPoint.x][endPoint.y + 1] = '*';
-      clearedBorders.push({ x: startPoint.x, y: endPoint.y + 1 });
+      clearedBorders.push({
+        x: startPoint.x,
+        y: endPoint.y + 1
+      });
     }
 
-    return { newBoard, clearedBorders };
+    return {
+      newBoard,
+      clearedBorders
+    };
   }
 
   // horizontal position
-  const endPoint = { x: x + ship.getLength() - 1, y };
+  const endPoint = {
+    x: x + ship.getLength() - 1,
+    y
+  };
 
   // remove the top border
   for (let i = startPoint.x - 1; i <= endPoint.x + 1; i += 1) {
-    if (isCordsValid({ x: i, y: startPoint.y - 1 })) {
+    if (isCordsValid({
+      x: i,
+      y: startPoint.y - 1
+    })) {
       newBoard[i][startPoint.y - 1] = '*';
-      clearedBorders.push({ x: i, y: startPoint.y - 1 });
+      clearedBorders.push({
+        x: i,
+        y: startPoint.y - 1
+      });
     }
   }
 
   // remove the bottom border
   for (let i = startPoint.x - 1; i <= endPoint.x + 1; i += 1) {
-    if (isCordsValid({ x: i, y: startPoint.y + 1 })) {
+    if (isCordsValid({
+      x: i,
+      y: startPoint.y + 1
+    })) {
       newBoard[i][startPoint.y + 1] = '*';
-      clearedBorders.push({ x: i, y: startPoint.y + 1 });
+      clearedBorders.push({
+        x: i,
+        y: startPoint.y + 1
+      });
     }
   }
 
   // remove the left border
-  if (isCordsValid({ x: startPoint.x - 1, y: startPoint.y })) {
+  if (isCordsValid({
+    x: startPoint.x - 1,
+    y: startPoint.y
+  })) {
     newBoard[startPoint.x - 1][startPoint.y] = '*';
-    clearedBorders.push({ x: startPoint.x - 1, y: startPoint.y });
+    clearedBorders.push({
+      x: startPoint.x - 1,
+      y: startPoint.y
+    });
   }
 
   // remove the right border
-  if (isCordsValid({ x: endPoint.x + 1, y: startPoint.y })) {
+  if (isCordsValid({
+    x: endPoint.x + 1,
+    y: startPoint.y
+  })) {
     newBoard[endPoint.x + 1][startPoint.y] = '*';
-    clearedBorders.push({ x: endPoint.x + 1, y: startPoint.y });
+    clearedBorders.push({
+      x: endPoint.x + 1,
+      y: startPoint.y
+    });
   }
 
-  return { newBoard, clearedBorders };
+  return {
+    newBoard,
+    clearedBorders
+  };
 };
 
 const getRandomCord = () => Math.floor(Math.random() * (MAX_CORD_RANGE + 1));
 
 const getRandomPosition = () => !!Math.floor(Math.random() * 2);
 
-const findShipData = (shipsData, { x, y }) => (
-  shipsData.find((s) => s.cords.find((c) => c.x === x && c.y === y)));
+const findShipData = (shipsData, {
+  x,
+  y
+}) => (shipsData.find((s) => s.cords.find((c) => c.x === x && c.y === y)));
 
-const getPositionIndex = (ship, { x, y }) => ship.cords.findIndex((c) => c.x === x && c.y === y);
+const getPositionIndex = (ship, {
+  x,
+  y
+}) => ship.cords.findIndex((c) => c.x === x && c.y === y);
 
-const removeShipData = (shipsData, { x, y }) => (
-  shipsData.filter((s) => !s.cords.find((c) => c.x === x && c.y === y))
-);
+const removeShipData = (shipsData, {
+  x,
+  y
+}) => (shipsData.filter((s) => !s.cords.find((c) => c.x === x && c.y === y)));
 
 const createGameBoard = () => {
-  let board = [
+  let board = [['~', '~', '~', '~', '~', '~', '~', '~', '~', '~'],
     ['~', '~', '~', '~', '~', '~', '~', '~', '~', '~'],
     ['~', '~', '~', '~', '~', '~', '~', '~', '~', '~'],
     ['~', '~', '~', '~', '~', '~', '~', '~', '~', '~'],
@@ -441,9 +719,7 @@ const createGameBoard = () => {
     ['~', '~', '~', '~', '~', '~', '~', '~', '~', '~'],
     ['~', '~', '~', '~', '~', '~', '~', '~', '~', '~'],
     ['~', '~', '~', '~', '~', '~', '~', '~', '~', '~'],
-    ['~', '~', '~', '~', '~', '~', '~', '~', '~', '~'],
-    ['~', '~', '~', '~', '~', '~', '~', '~', '~', '~'],
-  ];
+    ['~', '~', '~', '~', '~', '~', '~', '~', '~', '~'],];
   let boardReady = false;
   let shipsCount = 0;
   let sunkShips = 0;
@@ -474,17 +750,33 @@ const createGameBoard = () => {
 
     getAliveShipsCount: () => shipsCount - sunkShips,
 
-    placeShipAt(ship, { x = -1, y = -1, isVertical = false } = {}) {
-      if (!this.isReady() && isShipValid(ship, board, { x, y, isVertical })) {
+    placeShipAt(ship, {
+      x = -1,
+      y = -1,
+      isVertical = false
+    } = {}) {
+      if (!this.isReady() && isShipValid(ship, board, {
+        x,
+        y,
+        isVertical
+      })) {
         if (isShipRequired(ship, boardInfo)) {
           boardInfo = addShipToBoardInfo(ship, boardInfo);
-          const cords = getAllShipCords(ship, { x, y, isVertical });
+          const cords = getAllShipCords(ship, {
+            x,
+            y,
+            isVertical
+          });
           shipsData.push({
             ship,
             cords,
             isVertical,
           });
-          board = putShipOnBoard(ship, board, { x, y, isVertical });
+          board = putShipOnBoard(ship, board, {
+            x,
+            y,
+            isVertical
+          });
           shipsCount += 1;
 
           return true;
@@ -494,9 +786,19 @@ const createGameBoard = () => {
       return false;
     },
 
-    replaceShipFrom({ cx = -1, cy = -1 }, { nx = -1, ny = -1, isVertical = false } = {}) {
+    replaceShipFrom({
+      cx = -1,
+      cy = -1
+    }, {
+      nx = -1,
+      ny = -1,
+      isVertical = false
+    } = {}) {
       if (!this.isReady()) {
-        const shipData = findShipData(shipsData, { x: cx, y: cy });
+        const shipData = findShipData(shipsData, {
+          x: cx,
+          y: cy
+        });
 
         if (shipData) {
           const bBoard = JSON.parse(JSON.stringify(board));
@@ -504,11 +806,18 @@ const createGameBoard = () => {
           const bBoardInfo = { ...boardInfo };
 
           board = removeShipFromBoard(shipData, board);
-          shipsData = removeShipData(shipsData, { x: cx, y: cy });
+          shipsData = removeShipData(shipsData, {
+            x: cx,
+            y: cy
+          });
           boardInfo = removeShipFromBoardInfo(shipData.ship, boardInfo);
           shipsCount -= 1;
 
-          if (!this.placeShipAt(shipData.ship, { x: nx, y: ny, isVertical })) {
+          if (!this.placeShipAt(shipData.ship, {
+            x: nx,
+            y: ny,
+            isVertical
+          })) {
             board = bBoard;
             shipsData = bShipsData;
             boardInfo = bBoardInfo;
@@ -534,24 +843,51 @@ const createGameBoard = () => {
         x = getRandomCord();
         y = getRandomCord();
         isVertical = getRandomPosition();
-      } while (!this.placeShipAt(ship, { x, y, isVertical }));
+      } while (!this.placeShipAt(ship, {
+        x,
+        y,
+        isVertical
+      }));
 
-      return { x, y, isVertical };
+      return {
+        x,
+        y,
+        isVertical
+      };
     },
 
-    receiveAttack({ x, y }) {
-      if (this.isReady() && isCordsValid({ x, y })) {
+    receiveAttack({
+      x,
+      y
+    }) {
+      if (this.isReady() && isCordsValid({
+        x,
+        y
+      })) {
         if (board[x][y] === 's') {
-          const damagedShipData = findShipData(shipsData, { x, y });
-          const damagedPosition = getPositionIndex(damagedShipData, { x, y });
+          const damagedShipData = findShipData(shipsData, {
+            x,
+            y
+          });
+          const damagedPosition = getPositionIndex(damagedShipData, {
+            x,
+            y
+          });
 
-          if (damagedShipData.ship.hitAt({ position: damagedPosition + 1 }).isSunk()) {
+          if (damagedShipData.ship.hitAt({ position: damagedPosition + 1 })
+            .isSunk()) {
             sunkShips += 1;
             board[x][y] = 'x';
-            const { newBoard, clearedBorders } = removeShipBorders(damagedShipData, board);
+            const {
+              newBoard,
+              clearedBorders
+            } = removeShipBorders(damagedShipData, board);
             board = newBoard;
 
-            return { damagedShipData, clearedBorders };
+            return {
+              damagedShipData,
+              clearedBorders
+            };
           }
 
           board[x][y] = 'x';
