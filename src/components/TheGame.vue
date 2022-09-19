@@ -1,10 +1,13 @@
 <template>
   <div class="game-wrapper">
-    <div class="game-container" :style="{display: isGameInitiated ? 'flex' : 'none'}">
-      <div class="pl" ref="plElement">
+    <div :style="{display: isGameInitiated ? 'flex' : 'none'}" class="game-container">
+      <div ref="plElement" class="pl">
       </div>
-      <div class="game-info" :style="{color: this.gameInfo.color}" :class="{pulse: this.gameInfo.msg, 'top-bot-borders': this.gameInfo.msg}">{{this.gameInfoMsg}}</div>
-      <div class="pc" ref="pcElement">
+      <div :class="{pulse: this.gameInfo.msg, 'top-bot-borders': this.gameInfo.msg}" :style="{color: this.gameInfo.color}"
+           class="game-info">
+        {{ this.gameInfoMsg }}
+      </div>
+      <div ref="pcElement" class="pc">
       </div>
     </div>
   </div>
@@ -16,16 +19,16 @@ import { useGameStore } from '@/stores/gameStore';
 export default {
   name: 'TheGame',
 
-  setup(){
+  setup() {
     const GameStore = useGameStore();
-    return{
+    return {
       GameStore
-    }
+    };
   },
 
   computed: {
-    gameInfoMsg(){
-      return this.GameStore.opponentPlacementDone ? this.gameInfo.msg : "Waiting for opponent to finish placement"
+    gameInfoMsg() {
+      return this.GameStore.opponentPlacementDone ? this.gameInfo.msg : 'Waiting for opponent to finish placement';
     },
   },
 
@@ -106,7 +109,10 @@ export default {
       }
 
       if (response.damagedShipData) {
-        const { damagedShipData, clearedBorders } = response;
+        const {
+          damagedShipData,
+          clearedBorders
+        } = response;
         const ship = document.createElement('div');
         ship.classList.add('ship');
 
@@ -120,7 +126,8 @@ export default {
         ship.classList.toggle('resize');
 
         const firstSpot = this.pcBoardElement
-          .querySelector(`.spot[data-cord=${JSON.stringify(JSON.stringify(damagedShipData.cords[0]))}]`);
+          .querySelector(
+            `.spot[data-cord=${JSON.stringify(JSON.stringify(damagedShipData.cords[0]))}]`);
 
         ship.style['grid-auto-flow'] = damagedShipData.isVertical ? 'row' : 'column';
         ship.style.position = 'absolute';
@@ -179,7 +186,8 @@ export default {
         const nameEl = boardInfoElement.firstElementChild;
         const aliveShipsEl = boardInfoElement.lastElementChild;
         const name = player.getName();
-        const aliveShips = player.getBoard().getAliveShipsCount();
+        const aliveShips = player.getBoard()
+          .getAliveShipsCount();
 
         if (`${nameEl.textContent} Board` !== name) {
           nameEl.textContent = `${name} Board`;
@@ -243,7 +251,7 @@ export default {
 }
 
 .pl >>> .ship,
-.pc >>> .ship  {
+.pc >>> .ship {
   cursor: initial;
 }
 
@@ -277,12 +285,12 @@ export default {
   border: 4px solid rgb(70, 70, 70);
 }
 
-.pc >>> .spot .part ,
+.pc >>> .spot .part,
 .pl >>> .spot .part {
   text-shadow: 0 0 2px black;
   text-align: center;
   font-size: var(--spot-size);
-  line-height : 0.745;
+  line-height: 0.745;
 }
 
 .pc >>> .board-info,
@@ -336,9 +344,9 @@ export default {
 }
 
 @keyframes pulse {
-   100% {
+  100% {
     box-shadow: inset 0 0 2px 1px rgb(82, 82, 82),
-      0 0 2px 1px rgb(255, 255, 255);
+    0 0 2px 1px rgb(255, 255, 255);
     color: rgb(255, 255, 255);
   }
 }
@@ -387,9 +395,9 @@ export default {
     grid-gap: 2px;
   }
 
-  .pc >>> .spot .part ,
+  .pc >>> .spot .part,
   .pl >>> .spot .part {
-    line-height : 0.7;
+    line-height: 0.7;
   }
 
   .game-info {
@@ -419,9 +427,9 @@ export default {
     border-width: 1px;
   }
 
-  .pc >>> .spot .part ,
+  .pc >>> .spot .part,
   .pl >>> .spot .part {
-    line-height : 0.9;
+    line-height: 0.9;
   }
 }
 </style>
