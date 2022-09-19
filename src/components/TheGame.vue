@@ -1,37 +1,41 @@
 <template>
   <div class="game-wrapper">
     <div class="game-container">
-      <div class="pl">
+      <div class="pl" ref="plElement">
       </div>
-      <div class="game-info"></div>
-      <div class="pc">
+      <div ref="gameInfo" class="game-info">{{this.GameStore.opponentPlacementDone}}</div>
+      <div class="pc" ref="pcElement">
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { useGameStore } from '@/stores/gameStore';
+
 export default {
   name: 'TheGame',
 
+  setup(){
+    const GameStore = useGameStore();
+    return{
+      GameStore
+    }
+  },
+
+
   data: () => ({
     isGameInitiated: false,
-    plElement: null,
-    pcElement: null,
     plBoardElement: null,
     pcBoardElement: null,
     plBoardInfoElement: null,
     pcBoardInfoElement: null,
-    gameInfo: null,
     pl: null,
     pc: null,
   }),
 
   methods: {
     initTheGame(plBoardElement, pcBoardElement, pl, pc) {
-      this.plElement = document.querySelector('.pl');
-      this.pcElement = document.querySelector('.pc');
-      this.gameInfo = document.querySelector('.game-info');
       this.plBoardElement = plBoardElement;
       this.pcBoardElement = pcBoardElement;
       this.pl = pl;
@@ -47,8 +51,8 @@ export default {
     },
 
     renderTheBoards() {
-      this.plElement.appendChild(this.plBoardElement);
-      this.pcElement.appendChild(this.pcBoardElement);
+      this.$refs.plElement.appendChild(this.plBoardElement);
+      this.$refs.pcElement.appendChild(this.pcBoardElement);
     },
 
     resetTheGame() {
@@ -198,22 +202,22 @@ export default {
       this.plBoardInfoElement = createBoardInfo();
       this.pcBoardInfoElement = createBoardInfo();
 
-      this.plElement.appendChild(this.plBoardInfoElement);
-      this.pcElement.appendChild(this.pcBoardInfoElement);
+      this.$refs.plElement.appendChild(this.plBoardInfoElement);
+      this.$refs.pcElement.appendChild(this.pcBoardInfoElement);
     },
 
     updateGameInfo(msg = '', color = 'rgb(43, 197, 87)') {
-      this.gameInfo.textContent = msg;
-      this.gameInfo.style.color = color;
+      this.$refs.gameInfo.textContent = msg;
+      this.$refs.gameInfo.style.color = color;
 
-      if (!this.gameInfo.classList.contains('pulse')) {
-        this.gameInfo.classList.add('pulse');
-        this.gameInfo.classList.add('top-bot-borders');
+      if (!this.$refs.gameInfo.classList.contains('pulse')) {
+        this.$refs.gameInfo.classList.add('pulse');
+        this.$refs.gameInfo.classList.add('top-bot-borders');
       }
 
       if (!msg) {
-        this.gameInfo.classList.remove('pulse');
-        this.gameInfo.classList.remove('top-bot-borders');
+        this.$refs.gameInfo.classList.remove('pulse');
+        this.$refs.gameInfo.classList.remove('top-bot-borders');
       }
     },
 

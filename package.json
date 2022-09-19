@@ -9,7 +9,8 @@
   "dependencies": {
     "core-js": "^3.4.8",
     "peerjs": "^1.4.7",
-    "vue": "^2.6.10",
+    "pinia": "^2.0.22",
+    "vue": "^2.7.10",
     "vuetify": "^2.1.13"
   },
   "devDependencies": {

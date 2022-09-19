@@ -24,6 +24,7 @@ import TheGameBoardRedactor from './components/TheGameBoardRedactor.vue';
 import TheGame from './components/TheGame.vue';
 
 import createPlayer from './scripts/factories/createPlayer';
+import { useGameStore } from '@/stores/gameStore';
 
 export default {
   name: 'App',
@@ -33,6 +34,13 @@ export default {
     TheNavBar,
     TheGameMenu,
     TheGameBoardRedactor,
+  },
+
+  setup(){
+    const GameStore = useGameStore();
+    return{
+      GameStore
+    }
   },
 
   data: () => ({

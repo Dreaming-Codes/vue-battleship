@@ -26,6 +26,8 @@
 </template>
 
 <script>
+import { useGameStore } from '@/stores/gameStore';
+
 export default {
   name: 'TheGameMenu',
 
@@ -35,21 +37,34 @@ export default {
       await new Promise((resolve)=>{
         this.$peer.once("connection", (conn)=>{
           console.log("Connected to other peer")
-          this.$conn = conn;
+          this.GameStore.setConnection(conn);
           resolve()
         })
       })
+    }else{
+      this.GameStore.setConnection(this.$conn);
     }
+    console.log("Conn to other peer: ", this.GameStore.conn.peer)
     this.playerFound = true;
-    this.$conn.on("data", (data)=>{
-      console.log("test", data)
+    this.GameStore.conn.once("data", (msg)=>{
+      if(msg.id === "startGame"){
+        this.$emit("start-new-game")
+      }
     })
+  },
+
+  setup(){
+    const GameStore = useGameStore();
+    return{
+      GameStore
+    }
   },
 
   methods: {
     newGame(){
-      console.log("sending data")
-      this.$conn.send("startGame")
+      console.log("sending startGame")
+      this.GameStore.conn.send({id: "startGame"})
+      this.$emit("start-new-game")
     }
   },
 

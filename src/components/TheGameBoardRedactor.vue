@@ -66,6 +66,7 @@ import createGameBoard, {
 } from '../scripts/factories/createGameBoard';
 
 import createShip from '../scripts/factories/createShip';
+import { useGameStore } from '@/stores/gameStore';
 
 export default {
   name: 'TheGameBoardRedactor',
@@ -135,6 +136,13 @@ export default {
     },
   },
 
+  setup(){
+    const GameStore = useGameStore();
+    return{
+      GameStore
+    }
+  },
+
   methods: {
     onClickStartBtn() {
       const plBoardElement = document.querySelector('.board-container').cloneNode(true);
@@ -171,6 +179,7 @@ export default {
 
       this.board.setBoardToReady();
       const pcBoard = { ...this.board };
+      this.GameStore.conn.send({id: "placementDone"})
       this.$emit('start-game', plBoard, plBoardElement, pcBoard, pcBoardElement);
     },
 
