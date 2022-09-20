@@ -31,6 +31,13 @@ export default {
     document.addEventListener('updatePlBoard', ({detail}) => {
       this.updatePlBoard(JSON.stringify(detail.cord), detail.response)
     });
+    document.addEventListener('passTurn', (e) => {
+        this.enablePcBoard();
+        this.gameInfo = {
+          msg: 'Your Turn!',
+          color: 'rgb(43, 197, 87)',
+        };
+    });
   },
 
   computed: {

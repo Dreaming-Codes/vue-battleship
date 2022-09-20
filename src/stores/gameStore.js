@@ -12,6 +12,9 @@ export const useGameStore = defineStore('main', {
         case 'placementDone':
           this.opponentPlacementDone = true;
           break;
+        case 'passTurn':
+          document.dispatchEvent(new Event('passTurn'));
+          break;
       }
     },
     setConnection(conn) {

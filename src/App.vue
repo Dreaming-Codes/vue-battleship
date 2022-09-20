@@ -115,46 +115,12 @@ export default {
           return;
         }
 
-        if (this.plHasDamaged) return;
-
+        this.GameStore.conn.send({ id: "passTurn" })
         this.$refs.game.gameInfo = {
-          msg: 'Pc Turn!',
+          msg: 'Opponent Turn!',
           color: 'rgb(226, 54, 54)',
         };
         this.$refs.game.disablePcBoard();
-
-        const delayPcTurn = (ms) => {
-          setTimeout(async () => {
-            this.pcHasDamaged = await this.makePcTurn();
-            this.$refs.game.updateTheBoardsInfo();
-
-            if (this.pl.getBoard().isAllShipsSunk()) {
-              this.gameHasAwinner = true;
-              this.gameMenuOptions.resume.isDisabled = true;
-              this.$refs.game.gameInfo = {
-                msg: 'Pc Won!',
-                color: 'rgb(226, 54, 54)',
-              };
-              setTimeout(this.handleShowGameMenu, 3000);
-
-              return;
-            }
-
-            if (this.pcHasDamaged) {
-              delayPcTurn(ms);
-
-              return;
-            }
-
-            this.$refs.game.gameInfo = {
-              msg: 'Your Turn!',
-              color: 'rgb(43, 197, 87)',
-            };
-            this.$refs.game.enablePcBoard();
-          }, ms);
-        };
-
-        delayPcTurn(500);
       }
     },
 
