@@ -1,8 +1,8 @@
 # Battleship (Sea Battle) (Vue) multiplayer
 
-This project doesn't use correct vue syntax since the repo from which it was forked was already wrong. I may fix it in the future.
+Don't blame me for all the bad practices present in this project since I was obligated to use them because the project from which this is forked were already using Vue in a wrong wat and I didn't had time to fix it.
 
-This currently have no cheating protection:
+This game have no cheating protection (feel free to make a PR):
 One possible way to prevent cheating is to encode all the ships position with different key pairs and send those at the beginning of the game. Then for each shot the other client send the key to
 decode the position and check if it's a hit or not. This way the client can't cheat by modifying the attack result.
 
