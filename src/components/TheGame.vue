@@ -21,9 +21,16 @@ export default {
 
   setup() {
     const GameStore = useGameStore();
+
     return {
       GameStore
     };
+  },
+
+  mounted() {
+    document.addEventListener('updatePlBoard', ({detail}) => {
+      this.updatePlBoard(JSON.stringify(detail.cord), detail.response)
+    });
   },
 
   computed: {
