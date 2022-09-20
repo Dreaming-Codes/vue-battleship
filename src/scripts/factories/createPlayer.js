@@ -184,13 +184,13 @@ const createPlayer = ({ name = '', board, isPc = false } = {}) => {
       }
     });
   }
-  const attack = isPc ? pcAttack : async ({ x, y })=>{
+  const attack = isPc ? pcAttack : async ({ player, x, y })=>{
     GameStore.conn.send({id: "attack", x, y});
     return await new Promise((resolve) => {
       GameStore.conn.once("data", (data)=>{
         console.log("Something happened", data);
         if (data.id === "attackReply") {
-          console.log(data);
+          resolve(data.success);
           return data.success
         }
       })
