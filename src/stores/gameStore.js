@@ -15,6 +15,8 @@ export const useGameStore = defineStore('main', {
         case 'passTurn':
           document.dispatchEvent(new Event('passTurn'));
           break;
+        case 'fail':
+          document.dispatchEvent(new CustomEvent('fail', { detail: {cord: data.cord, response: data.response} }));
       }
     },
     setConnection(conn) {

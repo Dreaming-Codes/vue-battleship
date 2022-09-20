@@ -27,7 +27,8 @@ const createPlayer = ({ name = '', board, isPc = false } = {}) => {
         let test = receiveAttack({x: data.x, y: data.y});
         const event = new CustomEvent('updatePlBoard', { detail: {cord: {x: data.x, y: data.y}, response: test }});
         document.dispatchEvent(event);
-        GameStore.conn.send({id: "attackReply", success: test})
+        console.log(test)
+        GameStore.conn.send({id: "attackReply", success: Boolean(test)});
       }
     });
   }

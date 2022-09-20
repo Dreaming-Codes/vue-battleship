@@ -38,6 +38,9 @@ export default {
           color: 'rgb(43, 197, 87)',
         };
     });
+    document.addEventListener('fail', ({detail}) => {
+      this.updatePcBoard(detail.cord, detail.response)
+    });
   },
 
   computed: {
@@ -207,23 +210,19 @@ export default {
 
         spot.append('*');
         spot.classList.toggle('resize');
+
+        this.GameStore.conn.send({id: 'fail', cord, response});
+        console.log("sending fails")
       }
     },
 
     updateTheBoardsInfo() {
       const updateInfoFor = (player, boardInfoElement) => {
         const nameEl = boardInfoElement.firstElementChild;
-        const aliveShipsEl = boardInfoElement.lastElementChild;
         const name = player.getName();
-        const aliveShips = player.getBoard()
-          .getAliveShipsCount();
 
         if (`${nameEl.textContent} Board` !== name) {
           nameEl.textContent = `${name} Board`;
-        }
-
-        if (`Alive Ships: ${aliveShipsEl.textContent}` !== aliveShips) {
-          aliveShipsEl.textContent = `Alive Ships: ${aliveShips}`;
         }
       };
 
