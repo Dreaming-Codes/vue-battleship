@@ -39,7 +39,16 @@ export default {
         };
     });
     document.addEventListener('fail', ({detail}) => {
-      this.updatePcBoard(detail.cord, detail.response)
+      detail.clearedBorders.forEach((borderCord) => {
+        const spotEl = this.pcBoardElement
+          .querySelector(`.spot[data-cord=${JSON.stringify(JSON.stringify(borderCord))}]`);
+
+        if (!spotEl.firstChild) {
+          spotEl.append('*');
+          spotEl.style.pointerEvents = 'none';
+          spotEl.classList.toggle('resize');
+        }
+      });
     });
   },
 
@@ -192,6 +201,10 @@ export default {
         if (response.damagedShipData) {
           const { clearedBorders } = response;
 
+          setTimeout(()=>{
+            this.GameStore.conn.send({id: 'fail', clearedBorders});
+          }, 1000)
+
           clearedBorders.forEach((borderCord) => {
             const spotEl = this.plBoardElement
               .querySelector(`.spot[data-cord=${JSON.stringify(JSON.stringify(borderCord))}]`);
@@ -210,9 +223,6 @@ export default {
 
         spot.append('*');
         spot.classList.toggle('resize');
-
-        this.GameStore.conn.send({id: 'fail', cord, response});
-        console.log("sending fails")
       }
     },
 
