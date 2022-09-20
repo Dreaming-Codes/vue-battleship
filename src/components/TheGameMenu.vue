@@ -33,7 +33,7 @@ export default {
 
   async mounted() {
     if(!this.$conn){
-      this.peerLink = `${window.location.origin}/?id=${this.$peer.id}`;
+      this.peerLink = `${window.location.origin}${location.pathname}?id=${this.$peer.id}`;
       await new Promise((resolve)=>{
         this.$peer.once("connection", (conn)=>{
           console.log("Connected to other peer")
